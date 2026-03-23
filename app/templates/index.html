@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Counter App</title>
+    <!-- Link to the stylesheet. Using an absolute path /static/style.css -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Counter Application</h1>
+        <!-- Display the counter value. The initial value is rendered by Flask. -->
+        <div id="counter-display">{{ initial_count }}</div>
+        <button id="increment-button">Increment Counter</button>
+    </div>
+
+    <!-- Link to the JavaScript file. Using an absolute path /static/script.js -->
+    <script src="/static/script.js"></script>
+</body>
+</html>

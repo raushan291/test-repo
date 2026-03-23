@@ -1,0 +1,45 @@
+/* Basic styling for the counter app */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1 {
+    color: #0056b3;
+}
+
+#counter-display {
+    font-size: 3em;
+    margin: 20px 0;
+    padding: 10px 20px;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    background-color: #004085;
+}
