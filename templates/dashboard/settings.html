@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings - SaaS Platform{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <h2>Account Settings</h2>
+    <form>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" value="{{ username }}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" value="user@example.com" disabled>
+        </div>
+        <button type="submit" class="btn btn-primary" disabled>Save Changes</button>
+    </form>
+    <p><i>(Feature under development)</i></p>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - SaaS Platform{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Welcome, {{ username }}!</h2>
+    <p>This is your personalized dashboard. Here you can find an overview of your account.</p>
+
+    <h3>Quick Actions</h3>
+    <ul>
+        <li><a href="{{ url_for('dashboard.settings') }}">Account Settings</a></li>
+        <li><a href="{{ url_for('payments.subscribe') }}">Manage Subscription</a></li>
+        <li><a href="{{ url_for('payments.history') }}">View Payment History</a></li>
+    </ul>
+
+    <div class="card">
+        <h4>Recent Activity</h4>
+        <p>No recent activity to show.</p>
+    </div>
+    <div class="card">
+        <h4>Subscription Status</h4>
+        <p>You are currently on the Free Tier.</p>
+        <a href="{{ url_for('payments.subscribe') }}" class="btn btn-secondary">Upgrade Now</a>
+    </div>
+</div>
+{% endblock %}
