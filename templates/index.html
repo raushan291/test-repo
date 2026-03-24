@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Counter</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Counter App</h1>
+
+        <div class="auth-status">
+            {% if current_user.is_authenticated %}
+                <p>Hello, {{ current_user.username }}!</p>
+                <p><a href="{{ url_for('auth.profile') }}">Profile</a> | <a href="{{ url_for('auth.logout') }}">Logout</a></p>
+            {% else %}
+                <p><a href="{{ url_for('auth.register') }}">Register</a> | <a href="{{ url_for('auth.login') }}">Login</a></p>
+            {% endif %}
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <p>Current count:</p>
+        <div id="counter-display">{{ initial_count }}</div>
+        <button id="increment-button" onclick="incrementCounter()">Increment Counter</button>
+    </div>
+
+    <script>
+        function incrementCounter() {
+            fetch('/increment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('counter-display').innerText = data.count;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

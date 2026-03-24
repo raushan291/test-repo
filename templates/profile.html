@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Simple Counter</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ user.username }}!</h1>
+        <p>This is your profile page. Only logged-in users can see this.</p>
+        <p>Your user ID is: {{ user.id }}</p>
+        <p><a href="{{ url_for('index') }}">Back to Home</a></p>
+        <p><a href="{{ url_for('auth.logout') }}">Logout</a></p>
+    </div>
+</body>
+</html>

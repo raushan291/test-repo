@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Subscribe - SaaS Platform{% endblock %}
+
+{% block content %}
+<div class="subscribe-container">
+    <h2>Choose Your Subscription Plan, {{ username }}</h2>
+    <div class="pricing-plans">
+        <div class="plan-card">
+            <h3>Basic Plan</h3>
+            <p class="price">$9.99/month</p>
+            <ul>
+                <li>Feature A</li>
+                <li>Feature B</li>
+                <li>Limited Support</li>
+            </ul>
+            <button class="btn btn-primary">Select Basic</button>
+        </div>
+        <div class="plan-card featured">
+            <h3>Pro Plan</h3>
+            <p class="price">$19.99/month</p>
+            <ul>
+                <li>All Basic Features</li>
+                <li>Feature C (Advanced)</li>
+                <li>Priority Support</li>
+            </ul>
+            <button class="btn btn-primary">Select Pro</button>
+        </div>
+        <div class="plan-card">
+            <h3>Enterprise Plan</h3>
+            <p class="price">Contact Us</p>
+            <ul>
+                <li>All Pro Features</li>
+                <li>Custom Solutions</li>
+                <li>Dedicated Account Manager</li>
+            </ul>
+            <button class="btn btn-primary">Contact Sales</button>
+        </div>
+    </div>
+    <p><i>(Payment processing feature under development)</i></p>
+    <p><a href="{{ url_for('dashboard.index') }}">Back to Dashboard</a></p>
+</div>
+{% endblock %}
