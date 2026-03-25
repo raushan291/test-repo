@@ -16,14 +16,12 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'  # Specify the view function for logging in
 
 # --- Mock User Data (In a real application, this would come from a database) ---
-# For demonstration, 'subscription_status' and 'payment_history' are directly on the user.
-# In a real app, 'Subscription' model would be queried for active subscriptions.
 USERS = {
     "testuser1": {
         "id": "testuser1",
         "password": "password1",
         "email": "test1@example.com",
-        "subscription_status": "active", # Represents an active subscription
+        "subscription_status": "active",
         "payment_history": ["Invoice-2023-01", "Invoice-2023-02", "Invoice-2023-03"],
         "is_active": True,
         "is_authenticated": True
@@ -32,7 +30,7 @@ USERS = {
         "id": "testuser2",
         "password": "password2",
         "email": "test2@example.com",
-        "subscription_status": "inactive", # Represents no active subscription
+        "subscription_status": "inactive",
         "payment_history": [],
         "is_active": True,
         "is_authenticated": True
@@ -42,8 +40,6 @@ USERS = {
 class User(UserMixin):
     """
     Custom User class for Flask-Login, representing a user from our mock database.
-    This class effectively encapsulates the data that would typically come from
-    `User` and `Subscription` models after a database query.
     """
     def __init__(self, user_id):
         self.id = user_id
@@ -58,23 +54,19 @@ class User(UserMixin):
         return str(self.id)
 
     @property
-    def email(self):
-        """Returns the user's email address."""
-        return self.data.get('email', 'N/A')
-
-    @property
     def subscription_status(self):
         """Returns the user's subscription status."""
-        # In a real app, this might query a Subscription model:
-        # return Subscription.query.filter_by(user_id=self.id, is_active=True).first().status if ... else 'inactive'
         return self.data.get('subscription_status', 'unknown')
 
     @property
     def payment_history(self):
         """Returns the user's payment history."""
-        # In a real app, this would query a Payment model:
-        # return Payment.query.filter_by(user_id=self.id).all()
         return self.data.get('payment_history', [])
+
+    @property
+    def email(self):
+        """Returns the user's email."""
+        return self.data.get('email', 'N/A')
 
 # Flask-Login user_loader callback
 @login_manager.user_loader
@@ -147,22 +139,9 @@ def dashboard():
 @login_required # Ensures only logged-in users can access this
 def profile():
     """
-    Displays the logged-in user's profile information and subscription status.
-    Requires user authentication.
+    Displays the user's profile information. This route is protected and requires authentication.
     """
-    # current_user object contains all necessary user details
-    # In a real database scenario, you might do:
-    # user = User.query.get(current_user.id)
-    # subscriptions = Subscription.query.filter_by(user_id=user.id, status='active').all()
-    # However, with mock data, current_user properties suffice.
-
-    user_info = {
-        'username': current_user.username,
-        'email': current_user.email,
-        'subscription_status': current_user.subscription_status,
-        'payment_history': current_user.payment_history
-    }
-    return render_template('profile.html', user=user_info)
+    return render_template('profile.html', user=current_user)
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -176,75 +155,7 @@ def unauthorized():
 if __name__ == '__main__':
     # Create templates directory if it doesn't exist for local running
     os.makedirs('templates', exist_ok=True)
-    
-    # Create dummy templates if they don't exist, for running locally without full project setup.
-    # In a real project, these files would be part of the template directory.
-    if not os.path.exists('templates/login.html'):
-        with open('templates/login.html', 'w') as f:
-            f.write('''
-                <!DOCTYPE html>
-                <html>
-                <head><title>Login</title></head>
-                <body>
-                    <h1>Login</h1>
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            <ul class="flashes">
-                            {% for category, message in messages %}
-                                <li class="{{ category }}">{{ message }}</li>
-                            {% endfor %}
-                            </ul>
-                        {% endif %}
-                    {% endwith %}
-                    <form method="post">
-                        <input type="text" name="username" placeholder="Username">
-                        <input type="password" name="password" placeholder="Password">
-                        <button type="submit">Login</button>
-                    </form>
-                </body>
-                </html>
-            ''')
-    if not os.path.exists('templates/dashboard.html'):
-        with open('templates/dashboard.html', 'w') as f:
-            f.write('''
-                <!DOCTYPE html>
-                <html>
-                <head><title>Dashboard</title></head>
-                <body>
-                    <h1>Dashboard</h1>
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            <ul class="flashes">
-                            {% for category, message in messages %}
-                                <li class="{{ category }}">{{ message }}</li>
-                            {% endfor %}
-                            </ul>
-                        {% endif %}
-                    {% endwith %}
-                    <p>Welcome, {{ user.username }}!</p>
-                    <a href="{{ url_for("profile") }}">View Profile</a><br>
-                    <a href="{{ url_for("logout") }}">Logout</a>
-                </body>
-                </html>
-            ''')
-    if not os.path.exists('templates/profile.html'):
-        # This will be overwritten by the file provided below, but ensures basic runnability
-        with open('templates/profile.html', 'w') as f:
-            f.write('''
-                <!DOCTYPE html>
-                <html>
-                <head><title>Profile</title></head>
-                <body>
-                    <h1>User Profile (Dummy)</h1>
-                    <p>Username: {{ user.username }}</p>
-                    <p>Email: {{ user.email }}</p>
-                    <p>Subscription Status: {{ user.subscription_status }}</p>
-                    <a href="{{ url_for("dashboard") }}">Back to Dashboard</a>
-                </body>
-                </html>
-            ''')
-
-    # This block allows the Flask application to be run directly using `python app.py`.
+    # This block allows the Flask application to be run directly using `python dashboard.py`.\
     # `debug=True` enables the debugger and auto-reloader for development.
     # For production deployment, a WSGI server (e.g., Gunicorn, uWSGI) should be used.
     app.run(debug=True, port=5001)
