@@ -1,6 +1,11 @@
+"""
+A module providing basic arithmetic operations including addition, subtraction,
+multiplication, division, and power calculation.
+"""
+
 def add(a, b):
     """
-    Adds two numbers together.
+    Returns the sum of two numbers.
 
     Args:
         a (int or float): The first number.
@@ -13,20 +18,20 @@ def add(a, b):
 
 def subtract(a, b):
     """
-    Subtracts the second number from the first.
+    Returns the difference between two numbers (a - b).
 
     Args:
         a (int or float): The number to subtract from.
         b (int or float): The number to subtract.
 
     Returns:
-        int or float: The difference between a and b.
+        int or float: The difference of a and b.
     """
     return a - b
 
 def multiply(a, b):
     """
-    Multiplies two numbers.
+    Returns the product of two numbers.
 
     Args:
         a (int or float): The first number.
@@ -39,18 +44,31 @@ def multiply(a, b):
 
 def divide(a, b):
     """
-    Divides the first number by the second.
+    Returns the division of two numbers (a / b).
 
     Args:
-        a (int or float): The dividend.
-        b (int or float): The divisor.
+        a (int or float): The numerator.
+        b (int or float): The denominator.
 
     Returns:
-        int or float: The quotient of a divided by b.
+        int or float: The result of a divided by b.
 
     Raises:
-        ValueError: If the divisor b is zero.
+        ZeroDivisionError: If the denominator b is zero.
     """
     if b == 0:
-        raise ValueError("Cannot divide by zero.")
+        raise ZeroDivisionError("Cannot divide by zero")
     return a / b
+
+def power(base, exponent):
+    """
+    Returns the result of a base raised to the power of an exponent (base ** exponent).
+
+    Args:
+        base (int or float): The base number.
+        exponent (int or float): The exponent.
+
+    Returns:
+        int or float: The result of base raised to the power of exponent.
+    """
+    return base ** exponent
