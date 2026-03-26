@@ -20,11 +20,17 @@ def test_hello_world_return_type():
     """
     Test that the hello_world function returns a string.
     """
-    assert isinstance(hello_world(), str)
+    result = hello_world()
+    assert isinstance(result, str), f"Expected return type str, but got {type(result)}"
 
 def test_hello_world_no_arguments():
     """
     Test that the hello_world function does not accept any arguments.
+    Attempting to call it with arguments should raise a TypeError.
     """
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError) as excinfo:
+        # Pylint might warn about too many arguments, but this is intentional for the test.
+        # pylint: disable=too-many-function-args
         hello_world("some_arg")
+    assert "takes 0 positional arguments but 1 was given" in str(excinfo.value) or \
+           "takes no arguments but 1 was given" in str(excinfo.value)
